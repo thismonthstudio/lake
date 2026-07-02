@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>사주레이크 — 사주·궁합·타로, 30년 대운 흐름까지 한 번에</title>
+    <meta
+      name="description"
+      content="사주레이크는 사주, 궁합, 타로를 한 곳에서 보고 30년 대운/운의 흐름까지 한 번에 파악할 수 있는 앱입니다."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="사주레이크 — 사주·궁합·타로, 30년 대운 흐름까지 한 번에" />
+    <meta
+      property="og:description"
+      content="사주·궁합·타로 + 30년 대운/운의 흐름을 한눈에. 기록/저장/공유까지 편하게."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0B0E14" />
+
+    <style>
+      :root {
+        --bg0: #070a10;
+        --bg1: #0b0e14;
+        --card: rgba(255, 255, 255, 0.06);
+        --card2: rgba(255, 255, 255, 0.085);
+        --line: rgba(255, 255, 255, 0.12);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.66);
+        --muted2: rgba(255, 255, 255, 0.55);
+        --accent: #7c5cff;
+        --accent2: #24d3ff;
+        --good: #5cffb6;
+        --warn: #ffcc66;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+        --radius: 18px;
+        --radius2: 26px;
+        --max: 1120px;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+          monospace;
+        --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR",
+          "Apple SD Gothic Neo", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans", sans-serif;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg0: #f6f7ff;
+          --bg1: #ffffff;
+          --card: rgba(10, 12, 18, 0.05);
+          --card2: rgba(10, 12, 18, 0.07);
+          --line: rgba(10, 12, 18, 0.12);
+          --text: rgba(10, 12, 18, 0.92);
+          --muted: rgba(10, 12, 18, 0.68);
+          --muted2: rgba(10, 12, 18, 0.56);
+          --shadow: 0 18px 50px rgba(16, 18, 24, 0.12);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        color: var(--text);
+        background: radial-gradient(1200px 800px at 20% 10%, rgba(124, 92, 255, 0.28), transparent 60%),
+          radial-gradient(900px 700px at 80% 20%, rgba(36, 211, 255, 0.18), transparent 55%),
+          radial-gradient(1000px 800px at 50% 100%, rgba(92, 255, 182, 0.12), transparent 55%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .container {
+        width: min(var(--max), calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+      }
+      .skip:focus {
+        left: 16px;
+        top: 16px;
+        z-index: 1000;
+        background: var(--bg1);
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        background: color-mix(in oklab, var(--bg1) 72%, transparent);
+        border-bottom: 1px solid color-mix(in oklab, var(--line) 65%, transparent);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+        gap: 14px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 170px;
+      }
+      .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+        background:
+          radial-gradient(14px 14px at 30% 30%, rgba(255, 255, 255, 0.55), transparent 60%),
+          conic-gradient(from 210deg, var(--accent), var(--accent2), var(--good), var(--accent));
+        box-shadow: 0 10px 28px rgba(124, 92, 255, 0.18);
+        border: 1px solid color-mix(in oklab, rgba(255, 255, 255, 0.26), transparent);
+      }
+      .brand-name {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: -0.01em;
+      }
+      .nav-links {
+        display: none;
+        align-items: center;
+        gap: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .nav-links a {
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+      .nav-links a:hover {
+        background: var(--card);
+        color: var(--text);
+      }
+      .nav-cta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .pill {
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--text);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        background: var(--card2);
+        border-color: color-mix(in oklab, var(--line) 70%, rgba(255, 255, 255, 0.18));
+      }
+      .btn.primary {
+        border-color: color-mix(in oklab, var(--accent) 60%, var(--line));
+        background:
+          radial-gradient(120px 80px at 20% 10%, rgba(255, 255, 255, 0.22), transparent 55%),
+          linear-gradient(135deg, color-mix(in oklab, var(--accent) 85%, #000), color-mix(in oklab, var(--accent2) 70%, #000));
+        box-shadow: 0 18px 42px rgba(124, 92, 255, 0.28);
+      }
+      .btn.primary:hover {
+        transform: translateY(-2px);
+      }
+      .btn.ghost {
+        background: transparent;
+      }
+      .btn small {
+        font-weight: 700;
+        opacity: 0.85;
+      }
+
+      .hero {
+        padding: 56px 0 22px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: color-mix(in oklab, var(--card) 75%, transparent);
+        color: var(--muted);
+        width: fit-content;
+        font-size: 13px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.14);
+      }
+      h1 {
+        margin: 12px 0 10px;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.06;
+        letter-spacing: -0.04em;
+      }
+      .lead {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.65;
+        max-width: 58ch;
+      }
+      .hero-actions {
+        margin-top: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .store-row {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted2);
+        font-size: 13px;
+      }
+      .store-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: var(--card);
+      }
+      .store-badge strong {
+        font-size: 13px;
+        letter-spacing: -0.02em;
+      }
+      .store-badge span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .badge-ic {
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        background: color-mix(in oklab, var(--card2) 85%, transparent);
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text);
+      }
+
+      .mock {
+        position: relative;
+        border-radius: var(--radius2);
+        border: 1px solid color-mix(in oklab, var(--line) 80%, transparent);
+        background:
+          radial-gradient(420px 280px at 15% 20%, rgba(124, 92, 255, 0.26), transparent 60%),
+          radial-gradient(420px 280px at 75% 35%, rgba(36, 211, 255, 0.18), transparent 62%),
+          radial-gradient(520px 320px at 50% 100%, rgba(92, 255, 182, 0.12), transparent 60%),
+          linear-gradient(180deg, color-mix(in oklab, var(--bg1) 75%, transparent), color-mix(in oklab, var(--bg1) 92%, transparent));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        min-height: 360px;
+      }
+      .mock-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-bottom: 1px solid color-mix(in oklab, var(--line) 65%, transparent);
+        background: color-mix(in oklab, var(--card) 85%, transparent);
+      }
+      .mock-top .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .dots {
+        display: inline-flex;
+        gap: 6px;
+      }
+      .dots i {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: color-mix(in oklab, var(--line) 80%, transparent);
+      }
+      .mock-title {
+        font-size: 13px;
+        color: var(--muted);
+        letter-spacing: -0.01em;
+      }
+      .mock-body {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+      }
+      .card {
+        border-radius: var(--radius);
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card) 88%, transparent);
+        padding: 14px;
+      }
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 14px;
+        letter-spacing: -0.02em;
+      }
+      .card p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .flow {
+        height: 140px;
+        border-radius: 14px;
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background:
+          radial-gradient(220px 120px at 25% 30%, rgba(124, 92, 255, 0.22), transparent 65%),
+          linear-gradient(180deg, color-mix(in oklab, var(--card) 75%, transparent), color-mix(in oklab, var(--card2) 75%, transparent));
+        position: relative;
+        overflow: hidden;
+      }
+      .flow svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .flow-label {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        font-size: 12px;
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tag {
+        font-family: var(--mono);
+        font-size: 11px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid color-mix(in oklab, var(--line) 80%, transparent);
+        background: color-mix(in oklab, var(--card) 85%, transparent);
+        color: var(--text);
+      }
+
+      .section {
+        padding: 54px 0;
+      }
+      .section-header {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .eyebrow {
+        color: color-mix(in oklab, var(--muted) 80%, var(--accent));
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      h2 {
+        margin: 0;
+        font-size: clamp(22px, 3vw, 34px);
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+      }
+      .sub {
+        margin: 0;
+        color: var(--muted);
+        max-width: 70ch;
+        line-height: 1.65;
+      }
+
+      .feature-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: 1fr;
+        margin-top: 18px;
+      }
+      .feature {
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card) 90%, transparent);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+      }
+      .feature-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .ic {
+        width: 44px;
+        height: 44px;
+        border-radius: 16px;
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background:
+          radial-gradient(16px 16px at 30% 30%, rgba(255, 255, 255, 0.25), transparent 60%),
+          linear-gradient(135deg, color-mix(in oklab, var(--accent) 80%, #000), color-mix(in oklab, var(--accent2) 65%, #000));
+        display: grid;
+        place-items: center;
+        box-shadow: 0 16px 36px rgba(124, 92, 255, 0.18);
+        font-family: var(--mono);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .feature h3 {
+        margin: 12px 0 8px;
+        font-size: 16px;
+        letter-spacing: -0.02em;
+      }
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.62;
+        font-size: 14px;
+      }
+      .mini {
+        margin-top: 12px;
+        display: grid;
+        gap: 8px;
+        color: var(--muted2);
+        font-size: 13px;
+      }
+      .mini div {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .check {
+        margin-top: 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 6px;
+        background: color-mix(in oklab, var(--good) 28%, transparent);
+        border: 1px solid color-mix(in oklab, var(--good) 55%, var(--line));
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        color: color-mix(in oklab, var(--good) 80%, #000);
+        flex: 0 0 auto;
+      }
+
+      .split {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr;
+        align-items: start;
+        margin-top: 18px;
+      }
+
+      .steps {
+        display: grid;
+        gap: 10px;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        align-items: start;
+        padding: 14px;
+        border-radius: var(--radius);
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card) 88%, transparent);
+      }
+      .num {
+        width: 42px;
+        height: 42px;
+        border-radius: 16px;
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card2) 88%, transparent);
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        font-weight: 900;
+      }
+      .step h4 {
+        margin: 2px 0 6px;
+        font-size: 15px;
+        letter-spacing: -0.02em;
+      }
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 13px;
+      }
+
+      .faq {
+        margin-top: 18px;
+        display: grid;
+        gap: 10px;
+      }
+      details {
+        border-radius: var(--radius);
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card) 90%, transparent);
+        padding: 12px 14px;
+      }
+      summary {
+        cursor: pointer;
+        list-style: none;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      details p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        line-height: 1.65;
+        font-size: 14px;
+      }
+      .chev {
+        width: 18px;
+        height: 18px;
+        border-radius: 8px;
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card2) 88%, transparent);
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        color: var(--muted);
+        flex: 0 0 auto;
+        transition: transform 160ms ease;
+      }
+      details[open] .chev {
+        transform: rotate(90deg);
+      }
+
+      .cta {
+        padding: 22px;
+        border-radius: var(--radius2);
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background:
+          radial-gradient(420px 220px at 15% 30%, rgba(124, 92, 255, 0.22), transparent 60%),
+          radial-gradient(420px 220px at 80% 20%, rgba(36, 211, 255, 0.14), transparent 60%),
+          linear-gradient(180deg, color-mix(in oklab, var(--card) 75%, transparent), color-mix(in oklab, var(--card2) 70%, transparent));
+        box-shadow: var(--shadow);
+      }
+      .cta h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        letter-spacing: -0.03em;
+      }
+      .cta p {
+        margin: 0 0 14px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .fineprint {
+        margin-top: 12px;
+        color: var(--muted2);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .footer {
+        padding: 34px 0 46px;
+        border-top: 1px solid color-mix(in oklab, var(--line) 65%, transparent);
+        color: var(--muted2);
+        font-size: 13px;
+      }
+      .footer-grid {
+        display: grid;
+        gap: 14px;
+      }
+      .footer a {
+        color: color-mix(in oklab, var(--muted2) 88%, var(--accent2));
+      }
+      .footer a:hover {
+        color: var(--text);
+      }
+      .muted {
+        color: var(--muted);
+      }
+
+      .kbd {
+        font-family: var(--mono);
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 10px;
+        border: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+        background: color-mix(in oklab, var(--card) 90%, transparent);
+        color: var(--text);
+      }
+
+      @media (min-width: 860px) {
+        .nav-links {
+          display: flex;
+        }
+        .hero {
+          padding: 70px 0 34px;
+        }
+        .hero-grid {
+          grid-template-columns: 1.05fr 0.95fr;
+          gap: 26px;
+          align-items: center;
+        }
+        .grid-2 {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+        .feature-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .split {
+          grid-template-columns: 1fr 1fr;
+          gap: 18px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr auto;
+          align-items: center;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">본문 바로가기</a>
+
+    <header class="nav">
+      <div class="container">
+        <div class="nav-inner">
+          <a class="brand" href="#top" aria-label="사주레이크 홈으로">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+              <div class="brand-name">사주레이크</div>
+              <div class="brand-sub">사주 · 궁합 · 타로 · 30년 대운</div>
+            </div>
+          </a>
+
+          <nav class="nav-links" aria-label="페이지 섹션">
+            <a href="#features">기능</a>
+            <a href="#how">사용 방법</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+
+          <div class="nav-cta">
+            <span class="pill">오늘의 운세부터 대운까지</span>
+            <a class="btn primary" href="#download" data-track="nav_download">
+              <span>앱 받기</span>
+              <small aria-hidden="true">→</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="top" class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <div class="kicker">
+                <span class="dot" aria-hidden="true"></span>
+                <span>사주·궁합·타로를 한 앱에서, 운의 흐름을 “한눈에”</span>
+              </div>
+              <h1>사주레이크로<br />30년 대운 흐름까지 한 번에 파악하세요.</h1>
+              <p class="lead">
+                내 사주와 궁합, 타로 결과를 한 곳에 저장하고 비교해보세요. “지금”뿐 아니라 앞으로의 큰 흐름(대운/세운)을
+                함께 보여줘서, 선택이 필요한 순간에 방향을 잡기 쉬워집니다.
+              </p>
+
+              <div class="hero-actions">
+                <a class="btn primary" href="#download" data-track="hero_download">지금 시작하기</a>
+                <a class="btn ghost" href="#features" data-track="hero_features">어떤 기능이 있나요?</a>
+                <span class="kbd" title="데모/스크린샷은 나중에 교체 가능합니다">1페이지 랜딩</span>
+              </div>
+
+              <div class="store-row" id="download" aria-label="다운로드">
+                <a class="store-badge" href="#" data-track="store_ios" aria-label="App Store 링크 (추후 교체)">
+                  <span class="badge-ic" aria-hidden="true">iOS</span>
+                  <div>
+                    <strong>App Store</strong>
+                    <span>링크를 여기에 붙여주세요</span>
+                  </div>
+                </a>
+                <a class="store-badge" href="#" data-track="store_android" aria-label="Google Play 링크 (추후 교체)">
+                  <span class="badge-ic" aria-hidden="true">APK</span>
+                  <div>
+                    <strong>Google Play</strong>
+                    <span>링크를 여기에 붙여주세요</span>
+                  </div>
+                </a>
+                <span class="muted">* 현재는 샘플 버튼입니다. 링크만 교체하면 바로 사용 가능해요.</span>
+              </div>
+            </div>
+
+            <div class="mock" aria-label="앱 미리보기(디자인 목업)">
+              <div class="mock-top">
+                <div class="left">
+                  <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="mock-title">사주레이크 · 운의 흐름</span>
+                </div>
+                <span class="tag">30Y FLOW</span>
+              </div>
+              <div class="mock-body">
+                <div class="card">
+                  <h3>오늘의 키워드</h3>
+                  <p>관계 · 선택 · 타이밍. 감정은 가볍게, 결정은 천천히.</p>
+                </div>
+
+                <div class="grid-2">
+                  <div class="card">
+                    <h3>궁합 한 줄 요약</h3>
+                    <p>서로의 리듬을 맞추면 시너지가 큰 조합. 갈등은 ‘표현 방식’에서 시작.</p>
+                  </div>
+
+                  <div class="card">
+                    <h3>타로 스프레드</h3>
+                    <p>현재 / 장애물 / 조언 / 결과를 한 화면에서 정리.</p>
+                  </div>
+                </div>
+
+                <div class="flow" aria-label="30년 대운 흐름 차트(샘플)">
+                  <div class="flow-label">
+                    <span class="tag">대운</span>
+                    <span class="tag">세운</span>
+                    <span class="tag">흐름</span>
+                  </div>
+                  <svg viewBox="0 0 640 240" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="rgba(124,92,255,0.95)" />
+                        <stop offset="55%" stop-color="rgba(36,211,255,0.9)" />
+                        <stop offset="100%" stop-color="rgba(92,255,182,0.85)" />
+                      </linearGradient>
+                      <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="rgba(124,92,255,0.22)" />
+                        <stop offset="100%" stop-color="rgba(36,211,255,0.02)" />
+                      </linearGradient>
+                    </defs>
+
+                    <path
+                      d="M0,150 C70,90 120,170 190,120 C250,80 300,95 350,110 C420,130 470,55 540,92 C590,120 615,110 640,85 L640,240 L0,240 Z"
+                      fill="url(#fill)"
+                    />
+                    <path
+                      d="M0,150 C70,90 120,170 190,120 C250,80 300,95 350,110 C420,130 470,55 540,92 C590,120 615,110 640,85"
+                      fill="none"
+                      stroke="url(#g)"
+                      stroke-width="4.5"
+                      stroke-linecap="round"
+                    />
+                    <g opacity="0.35" stroke="rgba(255,255,255,0.22)" stroke-width="1">
+                      <line x1="0" y1="200" x2="640" y2="200" />
+                      <line x1="0" y1="160" x2="640" y2="160" />
+                      <line x1="0" y1="120" x2="640" y2="120" />
+                      <line x1="0" y1="80" x2="640" y2="80" />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="eyebrow">FEATURES</div>
+            <h2>“해석”보다 중요한 건, <br />내 운의 흐름을 정리하는 것</h2>
+            <p class="sub">
+              사주레이크는 단순 결과 나열이 아니라, <strong>사주·궁합·타로</strong>를 하나의 흐름으로 묶어 보이도록
+              설계했습니다. 특히 <strong>30년 대운</strong> 흐름을 한 번에 볼 수 있어요.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature">
+              <div class="feature-top">
+                <div class="ic" aria-hidden="true">SJ</div>
+                <span class="tag">내 사주</span>
+              </div>
+              <h3>사주 핵심 요약 + 흐름</h3>
+              <p>복잡한 텍스트 대신, 내 성향/강약/타이밍을 핵심 카드로 정리합니다.</p>
+              <div class="mini">
+                <div><span class="check" aria-hidden="true">✓</span><span>핵심 포인트 빠른 요약</span></div>
+                <div><span class="check" aria-hidden="true">✓</span><span>운의 리듬을 보기 쉬운 구조</span></div>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature-top">
+                <div class="ic" aria-hidden="true">CP</div>
+                <span class="tag">궁합</span>
+              </div>
+              <h3>궁합을 “말투/리듬”까지</h3>
+              <p>서로의 차이를 문제로 보기보다, 맞춰갈 포인트를 구체적으로 보여줍니다.</p>
+              <div class="mini">
+                <div><span class="check" aria-hidden="true">✓</span><span>한 줄 요약 + 상세 분석</span></div>
+                <div><span class="check" aria-hidden="true">✓</span><span>갈등 포인트 &amp; 조율 팁</span></div>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature-top">
+                <div class="ic" aria-hidden="true">TR</div>
+                <span class="tag">타로</span>
+              </div>
+              <h3>질문 중심 타로 기록</h3>
+              <p>상황/질문/결과를 묶어서 저장하고, 시간이 지나도 비교하기 쉽습니다.</p>
+              <div class="mini">
+                <div><span class="check" aria-hidden="true">✓</span><span>스프레드 기반 결과 정리</span></div>
+                <div><span class="check" aria-hidden="true">✓</span><span>과거 질문과 변화 추적</span></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="split">
+            <div class="cta">
+              <h3>30년 대운, “지금 어디쯤인지”부터</h3>
+              <p>
+                큰 흐름을 먼저 알고, 그 안에서 오늘/이번 달의 선택을 정리해보세요. 흐름을 이해하면 감정 소모가 줄어듭니다.
+              </p>
+              <div class="cta-row">
+                <a class="btn primary" href="#download" data-track="mid_download">앱 받기</a>
+                <a class="btn" href="#faq" data-track="mid_faq">자주 묻는 질문</a>
+              </div>
+              <div class="fineprint">* 대운/세운 표시는 앱 정책 및 해석 방식에 따라 달라질 수 있습니다.</div>
+            </div>
+
+            <div class="steps" id="how">
+              <div class="step">
+                <div class="num">01</div>
+                <div>
+                  <h4>내 정보 입력</h4>
+                  <p>생년월일/시간 등 기본 정보를 입력해요. (정확한 흐름 파악에 도움)</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="num">02</div>
+                <div>
+                  <h4>사주·궁합·타로 선택</h4>
+                  <p>지금 궁금한 주제를 고르고 결과를 한 화면에서 정리합니다.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="num">03</div>
+                <div>
+                  <h4>30년 흐름으로 연결</h4>
+                  <p>오늘의 결과를 “큰 흐름” 안에서 해석해, 다음 행동을 더 쉽게 정해요.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="container">
+          <div class="section-header">
+            <div class="eyebrow">FAQ</div>
+            <h2>자주 묻는 질문</h2>
+            <p class="sub">랜딩 페이지 문구/구성은 언제든 바꿔드릴 수 있어요. 지금은 “홍보용 기본 골격”입니다.</p>
+          </div>
+
+          <div class="faq">
+            <details>
+              <summary>
+                <span>사주레이크는 어떤 사람에게 좋아요?</span>
+                <span class="chev" aria-hidden="true">›</span>
+              </summary>
+              <p>
+                사주/타로 결과를 여러 곳에서 따로 보다가 헷갈리는 분, “큰 흐름(대운)”을 기준으로 현재를 정리하고 싶은 분에게
+                특히 잘 맞아요.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                <span>30년 대운 흐름은 어떻게 활용하나요?</span>
+                <span class="chev" aria-hidden="true">›</span>
+              </summary>
+              <p>
+                당장의 운세를 맞추기보다, 내 선택이 유리한 구간/조심할 구간을 구분하는 데 도움을 줍니다. “언제”에 집중하면
+                결정이 쉬워져요.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                <span>앱스토어/플레이스토어 링크는 어디서 바꾸나요?</span>
+                <span class="chev" aria-hidden="true">›</span>
+              </summary>
+              <p>
+                상단의 <span class="kbd">App Store</span>, <span class="kbd">Google Play</span> 버튼의 링크를 실제
+                주소로 교체하면 됩니다. 필요하면 제가 바로 연결해드릴게요.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="cta">
+            <h3>지금, 내 운의 흐름을 한 번에 정리해보세요</h3>
+            <p>사주·궁합·타로 결과를 기록하고, 30년 대운 흐름으로 이어서 ‘지금 할 일’을 더 명확하게.</p>
+            <div class="cta-row">
+              <a class="btn primary" href="#download" data-track="bottom_download">사주레이크 시작하기</a>
+              <a class="btn" href="#top" data-track="bottom_top">맨 위로</a>
+            </div>
+            <div class="fineprint">
+              문의/제휴/광고 문구가 필요하면 여기 하단에 연락처/이메일 섹션도 추가할 수 있어요.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div><strong>사주레이크</strong> <span class="muted">— 사주·궁합·타로, 30년 대운 흐름</span></div>
+            <div class="muted" style="margin-top: 6px">
+              © <span id="y"></span> Sajulake. All rights reserved.
+            </div>
+          </div>
+          <div class="muted">
+            <a href="#download">다운로드</a>
+            <span aria-hidden="true"> · </span>
+            <a href="#features">기능</a>
+            <span aria-hidden="true"> · </span>
+            <a href="#faq">FAQ</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var y = document.getElementById("y");
+        if (y) y.textContent = String(new Date().getFullYear());
+
+        var links = document.querySelectorAll('a[href^="#"]');
+        for (var i = 0; i < links.length; i++) {
+          links[i].addEventListener("click", function (e) {
+            var href = this.getAttribute("href");
+            if (!href || href === "#") return;
+            var el = document.querySelector(href);
+            if (!el) return;
+            e.preventDefault();
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            history.replaceState(null, "", href);
+          });
+        }
+
+        var track = function (name) {
+          try {
+            console.log("[track]", name);
+          } catch (_) {}
+        };
+        document.addEventListener("click", function (e) {
+          var t = e.target && e.target.closest ? e.target.closest("[data-track]") : null;
+          if (!t) return;
+          track(t.getAttribute("data-track"));
+        });
+      })();
+    </script>
+  </body>
+</html>
